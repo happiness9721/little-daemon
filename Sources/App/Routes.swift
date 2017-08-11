@@ -30,10 +30,9 @@ extension Droplet {
         return Response(status: .ok, body: "this message is not supported")
       }
       
-      ReplyMessageAPI(replyToken: replyToken, message: message).send()
+      CallBack(replyToken: replyToken, message: message).reply()
       
       return Response(status: .ok, body: "reply")
-      
     }
   }
 }
