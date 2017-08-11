@@ -11,7 +11,7 @@ class ReplyMessageAPI: LineAPI {
     if messages.count > 0 {
       let payload: [String: Any] = [
         "replyToken": replyToken,
-        "messages": [messages]
+        "messages": messages
       ]
       return payload
     } else {
