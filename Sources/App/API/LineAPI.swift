@@ -15,18 +15,17 @@ extension LineAPI {
 
 extension LineAPI {
   func send() {
-    
-    var request = URLRequest(url: URL(string: endpoint)!)
-    
-    request.httpMethod = method
-    
-    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-    request.addValue("Bearer \(LineAPIConfig.ACCESS_TOKEN)", forHTTPHeaderField: "Authorization")
-    
     if let body = body {
+      var request = URLRequest(url: URL(string: endpoint)!)
+      
+      request.httpMethod = method
+      
+      request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+      request.addValue("Bearer \(LineAPIConfig.ACCESS_TOKEN)", forHTTPHeaderField: "Authorization")
+      
       request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
+      
+      client.sendRequest(request: request)
     }
-    
-    client.sendRequest(request: request)
   }
 }

@@ -8,21 +8,44 @@ class ReplyMessageAPI: LineAPI {
   
   var body: [String : Any]? {
     
-    let payload: [String: Any] = [
-      "replyToken": replyToken,
-      "messages": [
-        ["type": "text", "text": message]
+    if messages.count > 0 {
+      let payload: [String: Any] = [
+        "replyToken": replyToken,
+        "messages": [messages]
       ]
-    ]
-    
-    return payload
+      return payload
+    } else {
+      return nil
+    }
   }
   
   let replyToken: String
-  let message: String
+  var messages = [[String: String]]()
   
-  init(replyToken: String, message: String) {
+  init(replyToken: String) {
     self.replyToken = replyToken
-    self.message = message
+  }
+  
+  func add(message: String) {
+    if messages.count < 5 {
+      messages.append(["type": "text",
+                       "text": message])
+    }
+  }
+  
+  func add(image: String) {
+    if messages.count < 5 {
+      messages.append(["type": "image",
+                       "originalContentUrl": image,
+                       "previewImageUrl": image])
+    }
+  }
+  
+  func add(originalContentUrl: String, previewImageUrl: String) {
+    if messages.count < 5 {
+      messages.append(["type": "image",
+                       "originalContentUrl": originalContentUrl,
+                       "previewImageUrl": previewImageUrl])
+    }
   }
 }
