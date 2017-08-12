@@ -1,0 +1,33 @@
+#extend("base")
+
+#export("title") {
+  小守護進程-自動回覆訊息
+}
+
+#export("content") {
+  <form class="form-inline" role="form" method="post" style="padding: 20px;">
+    <div class="form-group">
+      <label class="sr-only" for="keyword">關鍵字</label>
+      <input type="text" class="form-control" id="keyword" name="keyword" placeholder="請輸入關鍵字">
+    </div>
+    <div class="form-group">
+      <label class="sr-only" for="text">回覆</label>
+      <input type="text" class="form-control" id="text" name="text" placeholder="請輸入回覆內容">
+    </div>
+    <button type="submit" class="btn btn-default">送出</button>
+  </form>
+  <table class="table table-striped">
+    <tr>
+      <th>#()</th>
+      <th>關鍵字</th>
+      <th>回覆</th>
+    </tr>
+    #loop(replyTexts, "replyText") {
+      <tr>
+        <td>#(replyText.id)</td>
+        <td>#(replyText.keyword)</td>
+        <td>#(replyText.text)</td>
+      </tr>
+    }
+  </table>
+}

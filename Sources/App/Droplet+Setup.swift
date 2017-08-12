@@ -2,7 +2,8 @@
 
 extension Droplet {
   public func setup() throws {
-    try setupRoutes()
+    let routes = Routes(view)
+    try collection(routes)
     // Do any additional droplet setup
     LineAPIConfig.configure(with: config)
   }
