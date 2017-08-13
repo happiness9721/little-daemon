@@ -54,38 +54,51 @@ class CallBack {
   
   func queryTRARoute() throws {
     let messageArray = message.components(separatedBy: " ")
-    let fromStation = try TRAStation.makeQuery().filter("name", messageArray[0]).first()
-    let toStation = try TRAStation.makeQuery().filter("name", messageArray[1]).first()
-    if let fromStation = fromStation, let toStation = toStation {
-      let now = Date()
-      let dateFormatter = DateFormatter()
-      dateFormatter.timeZone = TimeZone(secondsFromGMT: 3600 * 8)
-      dateFormatter.dateFormat = "yyyy/MM/dd"
-      let dateString = dateFormatter.string(from: now)
-      dateFormatter.dateFormat = "HHmm"
-      let fromTime = dateFormatter.string(from: now)
-      let toTime = dateFormatter.string(from: now.addingTimeInterval(3600 * 7))
-      
-      var url = "http://www.madashit.com/api/get-Tw-Railway?date=" + dateString
-      url += "&fromstation=" + (fromStation.id?.string ?? "")
-      url += "&tostation=" + (toStation.id?.string ?? "")
-      url += "&fromtime=" + fromTime + "&totime=" + toTime
-      
-      let json = try JSON(bytes: Data(contentsOf: URL(string: url)!).makeBytes())
-      if let railwaies = json.array {
-        var railwayInfo = String()
-        for railway in railwaies {
-          if railwayInfo.characters.count > 0 {
-            railwayInfo += "\n"
+    if messageArray.count > 2 {
+      let fromStation = try TRAStation.makeQuery().filter("name", messageArray[0]).first()
+      let toStation = try TRAStation.makeQuery().filter("name", messageArray[1]).first()
+      if let fromStation = fromStation, let toStation = toStation {
+        let now = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 3600 * 8)
+        dateFormatter.dateFormat = "yyyy/MM/dd"
+        let dateString = dateFormatter.string(from: now)
+        dateFormatter.dateFormat = "HHmm"
+        let fromTime = dateFormatter.string(from: now)
+        let toTime = dateFormatter.string(from: now.addingTimeInterval(3600 * 7))
+        
+        var url = "http://www.madashit.com/api/get-Tw-Railway?date=" + dateString
+        url += "&fromstation=" + (fromStation.id?.string ?? "")
+        url += "&tostation=" + (toStation.id?.string ?? "")
+        url += "&fromtime=" + fromTime + "&totime=" + toTime
+        
+        let json = try JSON(bytes: Data(contentsOf: URL(string: url)!).makeBytes())
+        if let railwaies = json.array {
+          var railwayInfo = String()
+          for railway in railwaies {
+            if railwayInfo.characters.count > 0 {
+              railwayInfo += "\n"
+            }
+            railwayInfo += (railway.object?["行駛時間"]?.string ?? "")
+            railwayInfo += " " + (railway.object?["開車時間"]?.string ?? "")
+            railwayInfo += "-" + (railway.object?["到達時間"]?.string ?? "")
+            railwayInfo += " " + (railway.object?["車種"]?.string ?? "").leftPadding(toLength: 3, withPad: "　")
+            railwayInfo += "(" + (railway.object?["經由"]?.string ?? "") + ")"
           }
-          railwayInfo += railway.object?["車種"]?.string ?? ""
-          railwayInfo += " " + (railway.object?["車次"]?.int ?? 0).description
-          railwayInfo += " " + (railway.object?["經由"]?.string ?? "")
-          railwayInfo += " " + (railway.object?["開車時間"]?.string ?? "")
-          railwayInfo += "-" + (railway.object?["到達時間"]?.string ?? "")
+          replyMessage.add(message: railwayInfo.characters.count == 0 ? "七小時內尚無班次" : railwayInfo)
         }
-        replyMessage.add(message: railwayInfo.characters.count == 0 ? "七小時內尚無班次" : railwayInfo)
       }
+    }
+  }
+}
+
+extension String {
+  func leftPadding(toLength: Int, withPad character: Character) -> String {
+    let newLength = self.characters.count
+    if newLength < toLength {
+      return String(repeatElement(character, count: toLength - newLength)) + self
+    } else {
+      return self.substring(from: index(self.startIndex, offsetBy: newLength - toLength))
     }
   }
 }
