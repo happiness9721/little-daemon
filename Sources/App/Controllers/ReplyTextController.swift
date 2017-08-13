@@ -5,6 +5,7 @@ import HTTP
 /// creating typical REST patterns
 final class ReplyTextController: ResourceRepresentable {
   let view: ViewRenderer
+  
   init(_ view: ViewRenderer) {
     self.view = view
   }
@@ -17,6 +18,7 @@ final class ReplyTextController: ResourceRepresentable {
       ], for: req)
   }
 
+  /// POST /replyText
   func store(_ req: Request) throws -> ResponseRepresentable {
     let replyText = try ReplyText(node: req.formURLEncoded)
     try replyText.save()

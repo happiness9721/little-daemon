@@ -11,17 +11,18 @@ import Foundation
 class CallBack {
   
   let replyToken: String
-  var inputMessage: String
-  let replyMessage: ReplyMessageAPI
+  let message: String
+  private let replyMessage: ReplyMessageAPI
   
   init(replyToken: String, message: String) {
     self.replyToken = replyToken
-    self.inputMessage = message
+    self.message = message
     self.replyMessage = ReplyMessageAPI(replyToken: replyToken)
   }
   
-  func reply() throws {
-    if let replyText = try ReplyText.makeQuery().filter(raw: "'" + inputMessage + "' LIKE '%' || keyword || '%'").all().random {
+  func createReplyMessage() throws {
+    let raw = "$1 LIKE keyword"
+    if let replyText = try ReplyText.makeQuery().filter(raw: raw, [message]).all().random {
       replyMessage.add(message: replyText.text)
     }
     
@@ -38,7 +39,13 @@ class CallBack {
 //    if let command = command {
 //      commands[command]!()
 //    }
-    
+  }
+  
+  func send() {
     replyMessage.send()
+  }
+  
+  func json() throws -> JSON {
+    return try JSON(replyMessage.body.makeNode(in: nil))
   }
 }

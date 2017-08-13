@@ -2,8 +2,10 @@ import Vapor
 
 final class Routes: RouteCollection {
   let view: ViewRenderer
-  init(_ view: ViewRenderer) {
+  let config: Config
+  init(_ view: ViewRenderer, _ config: Config) {
     self.view = view
+    self.config = config
   }
   
   func build(_ builder: RouteBuilder) throws {
@@ -12,23 +14,7 @@ final class Routes: RouteCollection {
       return try self.view.make("welcome")
     }
     
-    /// GET /replyText/...
     builder.resource("replyText", ReplyTextController(view))
-    
-    /// POST /callback/...
-    builder.post("callback") { req in
-      
-      guard let object = req.data["events"]?.array?.first?.object else {
-        return Response(status: .ok, body: "this message is not supported")
-      }
-      
-      guard let message = object["message"]?.object?["text"]?.string, let replyToken = object["replyToken"]?.string else {
-        return Response(status: .ok, body: "this message is not supported")
-      }
-      
-      try CallBack(replyToken: replyToken, message: message).reply()
-      
-      return Response(status: .ok, body: "reply")
-    }
+    builder.resource("callback", CallBackController(config))
   }
 }

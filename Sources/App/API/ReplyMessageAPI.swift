@@ -3,11 +3,10 @@ import Foundation
 class ReplyMessageAPI: LineAPI {
   
   let endpoint = "https://api.line.me/v2/bot/message/reply"
-  
   let method = "POST"
-  
+  let replyToken: String
+  var messages = [[String: String]]()
   var body: [String : Any]? {
-    
     if messages.count > 0 {
       let payload: [String: Any] = [
         "replyToken": replyToken,
@@ -18,9 +17,6 @@ class ReplyMessageAPI: LineAPI {
       return nil
     }
   }
-  
-  let replyToken: String
-  var messages = [[String: String]]()
   
   init(replyToken: String) {
     self.replyToken = replyToken
