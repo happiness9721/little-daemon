@@ -54,7 +54,7 @@ class CallBack {
   
   func queryTRARoute() throws {
     let messageArray = message.components(separatedBy: " ")
-    if messageArray.count > 2 {
+    if messageArray.count == 2 {
       let fromStation = try TRAStation.makeQuery().filter("name", messageArray[0]).first()
       let toStation = try TRAStation.makeQuery().filter("name", messageArray[1]).first()
       if let fromStation = fromStation, let toStation = toStation {
@@ -65,7 +65,7 @@ class CallBack {
         let dateString = dateFormatter.string(from: now)
         dateFormatter.dateFormat = "HHmm"
         let fromTime = dateFormatter.string(from: now)
-        let toTime = dateFormatter.string(from: now.addingTimeInterval(3600 * 7))
+        let toTime = dateFormatter.string(from: now.addingTimeInterval(3600 * 3))
         
         var url = "http://www.madashit.com/api/get-Tw-Railway?date=" + dateString
         url += "&fromstation=" + (fromStation.id?.string ?? "")
@@ -85,7 +85,7 @@ class CallBack {
             railwayInfo += " " + (railway.object?["車種"]?.string ?? "").leftPadding(toLength: 3, withPad: "　")
             railwayInfo += "(" + (railway.object?["經由"]?.string ?? "") + ")"
           }
-          replyMessage.add(message: railwayInfo.characters.count == 0 ? "七小時內尚無班次" : railwayInfo)
+          replyMessage.add(message: railwayInfo.characters.count == 0 ? "三小時內尚無班次" : railwayInfo)
         }
       }
     }
