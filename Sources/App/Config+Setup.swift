@@ -25,5 +25,6 @@ extension Config {
     preparations.append(ReplyText.self)
     preparations.append(ReplyImage.self)
     preparations.append(MessageLog.self)
+    preparations.append(TRAStation.self)
   }
 }

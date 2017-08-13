@@ -39,24 +39,3 @@ extension MessageLog: Preparation {
     try database.delete(self)
   }
 }
-
-//// MARK: JSON
-//
-//// How the model converts from / to JSON.
-//// For example when:
-////     - Creating a new Post (POST /posts)
-////     - Fetching a post (GET /posts, GET /posts/:id)
-////
-//extension MessageLog: JSONConvertible {
-//  convenience init(json: JSON) throws {
-//    try self.init(userId: json.get("userId"), text: json.get("text"))
-//  }
-//  
-//  func makeJSON() throws -> JSON {
-//    var json = JSON()
-//    try json.set("id", id)
-//    try json.set("userId", userId)
-//    try json.set("text", text)
-//    return json
-//  }
-//}
