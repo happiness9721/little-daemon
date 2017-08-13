@@ -15,6 +15,7 @@ final class Routes: RouteCollection {
     }
     
     builder.resource("replyText", ReplyTextController(view))
+    builder.resource("replyImage", ReplyImageController(view))
     builder.resource("callback", CallBackController(config))
   }
 }

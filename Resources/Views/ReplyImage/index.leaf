@@ -1,0 +1,39 @@
+#extend("base")
+
+#export("title") {
+  小守護進程-自動回覆圖片
+}
+
+#export("content") {
+  <form class="form-inline" role="form" method="post" style="padding: 20px;">
+    <div class="form-group">
+      <label class="sr-only" for="keyword">關鍵字</label>
+      <input type="text" class="form-control" id="keyword" name="keyword" placeholder="請輸入關鍵字">
+    </div>
+    <div class="form-group">
+      <label class="sr-only" for="previewImageUrl">縮圖網址</label>
+      <input type="text" class="form-control" id="previewImageUrl" name="previewImageUrl" placeholder="請輸入縮圖網址">
+    </div>
+    <div class="form-group">
+      <label class="sr-only" for="originalContentUrl">大圖網址</label>
+      <input type="text" class="form-control" id="originalContentUrl" name="originalContentUrl" placeholder="請輸入大圖網址">
+    </div>
+    <button type="submit" class="btn btn-default">送出</button>
+  </form>
+  <table class="table table-striped">
+    <tr>
+      <th>#()</th>
+      <th>關鍵字</th>
+      <th>縮圖網址</th>
+      <th>大圖網址</th>
+    </tr>
+    #loop(replyImages, "replyImage") {
+      <tr>
+        <td>#(replyImage.id)</td>
+        <td>#(replyImage.keyword)</td>
+        <td><img src="#(replyImage.previewImageUrl)" alt=""></td>
+        <td><img src="#(replyImage.originalContentUrl)" alt=""></td>
+      </tr>
+    }
+  </table>
+}
