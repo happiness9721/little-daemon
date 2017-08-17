@@ -1,4 +1,4 @@
-class LineAPIConfig{
+class LineAPIConfig {
   
   fileprivate(set) static var ACCESS_TOKEN = ""
   

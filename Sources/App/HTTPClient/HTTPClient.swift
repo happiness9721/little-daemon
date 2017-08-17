@@ -1,5 +1,5 @@
 import Foundation
 
-protocol HTTPClient{
+protocol HTTPClient {
   func sendRequest(request: URLRequest)
 }
