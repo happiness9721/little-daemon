@@ -83,10 +83,10 @@ class CallBack {
     let fromTime = dateFormatter.string(from: now)
     let toTime = dateFormatter.string(from: now.addingTimeInterval(3600 * 3))
     
-    var url = "http://www.madashit.com/api/get-Tw-Railway?date=" + dateString
-    url += "&fromstation=" + (fromStation.id?.string ?? "")
-    url += "&tostation=" + (toStation.id?.string ?? "")
-    url += "&fromtime=" + fromTime + "&totime=" + toTime
+    var url = "http://www.madashit.com/api/get-Tw-Railway?date=\(dateString)"
+    url += "&fromstation=\(fromStation.id?.string ?? "")"
+    url += "&tostation=\(toStation.id?.string ?? "")"
+    url += "&fromtime=\(fromTime)&totime=\(toTime)"
     
     guard let railwaies = try JSON(bytes: Data(contentsOf: URL(string: url)!).makeBytes()).array else {
       return
@@ -100,11 +100,12 @@ class CallBack {
           railwayInfo += "\n"
         }
         railwayInfo += (railway.object?["行駛時間"]?.string ?? "")
-        railwayInfo += " " + (railway.object?["開車時間"]?.string ?? "")
-        railwayInfo += "-" + (railway.object?["到達時間"]?.string ?? "")
-        railwayInfo += " " + (railway.object?["車種"]?.string ?? "").leftPadding(toLength: 3, withPad: "　")
-        railwayInfo += "(" + (railway.object?["經由"]?.string ?? "") + ")"
+        railwayInfo += " \(railway.object?["開車時間"]?.string ?? "")"
+        railwayInfo += "-\(railway.object?["到達時間"]?.string ?? "")"
+        railwayInfo += " \((railway.object?["車種"]?.string ?? "").leftPadding(toLength: 3, withPad: "　"))"
+        railwayInfo += "(\(railway.object?["經由"]?.string ?? ""))"
       }
+      replyMessage.add(message: railwayInfo)
     } else {
       replyMessage.add(message: "三小時內尚無班次。")
     }
