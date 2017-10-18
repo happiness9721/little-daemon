@@ -1,6 +1,6 @@
 #extend("base")
 
-#export("title") { It works }
+#export("title") { 小守護進程 }
 
 #export("content") {
 	<div class="welcome">
