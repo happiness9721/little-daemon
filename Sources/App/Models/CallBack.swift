@@ -7,19 +7,20 @@
 //
 
 import Foundation
+import LineBot
 
 class CallBack {
   
   let replyToken: String
   let sourceInfo: String
   let message: String
-  private let replyMessage: ReplyMessageAPI
+  private let lineBot: LineBot
   
   init(replyToken: String, sourceInfo: String, message: String) {
     self.replyToken = replyToken
     self.sourceInfo = sourceInfo
     self.message = message
-    self.replyMessage = ReplyMessageAPI(replyToken: replyToken)
+    self.lineBot = LineBot(replyToken: replyToken)
   }
   
   func createReplyMessage() throws {
@@ -37,21 +38,21 @@ class CallBack {
     
     let raw = "$1 LIKE keyword"
     if let replyText = try ReplyText.makeQuery().filter(raw: raw, [message]).all().random {
-      replyMessage.add(message: replyText.text)
+      lineBot.add(message: replyText.text)
     }
     
     if let replyImage = try ReplyImage.makeQuery().filter(raw: raw, [message]).all().random {
-      replyMessage.add(originalContentUrl: replyImage.originalContentUrl,
+      lineBot.add(originalContentUrl: replyImage.originalContentUrl,
                        previewImageUrl: replyImage.previewImageUrl)
     }
   }
   
   func send() {
-    replyMessage.send()
+    lineBot.send()
   }
   
   func json() throws -> JSON {
-    return try JSON(replyMessage.body.makeNode(in: nil))
+    return try JSON(lineBot.body.makeNode(in: nil))
   }
   
   private func queryTRARoute() throws {
@@ -92,7 +93,7 @@ class CallBack {
       return
     }
     
-    replyMessage.add(message: "搜尋臺鐵班表 - [\(fromStation.name)] >>> [\(toStation.name)]")
+    lineBot.add(message: "搜尋臺鐵班表 - [\(fromStation.name)] >>> [\(toStation.name)]")
     if railwaies.count > 0 {
       var railwayInfo = String()
       for railway in railwaies {
@@ -105,9 +106,9 @@ class CallBack {
         railwayInfo += " \((railway.object?["車種"]?.string ?? "").leftPadding(toLength: 3, withPad: "　"))"
         railwayInfo += "(\(railway.object?["經由"]?.string ?? ""))"
       }
-      replyMessage.add(message: railwayInfo)
+      lineBot.add(message: railwayInfo)
     } else {
-      replyMessage.add(message: "三小時內尚無班次。")
+      lineBot.add(message: "三小時內尚無班次。")
     }
   }
 }

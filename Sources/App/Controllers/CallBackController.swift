@@ -10,7 +10,7 @@ final class CallBackController: ResourceRepresentable {
     self.config = config
   }
   
-  /// POST /replyText
+  /// POST /callback
   func store(_ req: Request) throws -> ResponseRepresentable {
     guard let object = req.data["events"]?.array?.first?.object else {
       return Response(status: .ok, body: "this message is not supported")
