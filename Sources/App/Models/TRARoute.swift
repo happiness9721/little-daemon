@@ -48,21 +48,15 @@ class TRARoute {
       url += "?searchtype=1"
       url += "&searchdate=\(dateString)"
       url += "&trainclass=2"
-      url += "&fromtime=\(fromTime)"
-      url += "&totime=\(Int(fromTime)! >= 2100 ? String(Int(toTime)! + 2400) : toTime)"
+//      url += "&fromtime=\(fromTime)"
+//      url += "&totime=\(Int(fromTime)! >= 2100 ? String(Int(toTime)! + 2400) : toTime)"
+      url += "&fromtime=1800&totime=2359"
       url += "&searchtext=\(fromStation.name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")"
       url += ",\(toStation.name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")"
 
-    guard let myURL = URL(string: url) else {
-      return
-    }
+    let myHTMLString = try String(bytes: Data(contentsOf: URL(string: url)!).makeBytes())
 
-    lineBot.add(message: "搜尋臺鐵班表 - [\(fromStation.name)] >>> [\(toStation.name)]")
-
-    let myHTMLString = try String(contentsOf: myURL)
-    lineBot.add(message: "try String(contentsOf: myURL)")
     let componets = myHTMLString.components(separatedBy: "TRSearchResult.push('")
-    lineBot.add(message: "TRSearchResult.push(")
     guard componets.count > 1 else {
       lineBot.add(message: "三小時內尚無班次。")
       return
@@ -72,8 +66,9 @@ class TRARoute {
     var railwayInfo = String()
     lineBot.add(message: "搜尋臺鐵班表 - [\(fromStation.name)] >>> [\(toStation.name)]")
     print(componets)
-    for index in 1..<componets.count - 1 {
-      route.append(String(componets[index].prefix(componets[index].characters.count - 3)))
+    for index in 1...componets.count - 1 {
+      let splitString = componets[index].components(separatedBy: "')")[0]
+      route.append(splitString)
       routeIndex += 1
       if routeIndex == 8 {
         if railwayInfo.characters.count > 0 {
