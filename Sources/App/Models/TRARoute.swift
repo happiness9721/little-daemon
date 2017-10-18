@@ -20,7 +20,7 @@ class TRARoute {
     }
 
     let firstIndex = message.index(message.startIndex, offsetBy: fromStation.name.characters.count)
-    let truncated = String(message[firstIndex...])
+    let truncated = message.substring(from: firstIndex)
 
     // 去掉開頭車站名後如果沒有車站名稱就跳離
     guard let toStation = try TRAStation.makeQuery()
@@ -53,9 +53,8 @@ class TRARoute {
       url += "&fromtime=1800&totime=2359"
       url += "&searchtext=\(fromStation.name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")"
       url += ",\(toStation.name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")"
-
+    
     let myHTMLString = try String(bytes: Data(contentsOf: URL(string: url)!).makeBytes())
-
     let componets = myHTMLString.components(separatedBy: "TRSearchResult.push('")
     guard componets.count > 1 else {
       lineBot.add(message: "三小時內尚無班次。")
@@ -136,7 +135,7 @@ extension String {
     if newLength < toLength {
       return String(repeatElement(character, count: toLength - newLength)) + self
     } else {
-      return String(self[index(self.startIndex, offsetBy: newLength - toLength)...])
+      return self.substring(from: index(self.startIndex, offsetBy: newLength - toLength))
     }
   }
 }
