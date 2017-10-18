@@ -48,9 +48,8 @@ class TRARoute {
       url += "?searchtype=1"
       url += "&searchdate=\(dateString)"
       url += "&trainclass=2"
-//      url += "&fromtime=\(fromTime)"
-//      url += "&totime=\(Int(fromTime)! >= 2100 ? String(Int(toTime)! + 2400) : toTime)"
-      url += "&fromtime=1800&totime=2359"
+      url += "&fromtime=\(fromTime)"
+      url += "&totime=\(Int(fromTime)! >= 2100 ? String(Int(toTime)! + 2400) : toTime)"
       url += "&searchtext=\(fromStation.name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")"
       url += ",\(toStation.name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")"
     
