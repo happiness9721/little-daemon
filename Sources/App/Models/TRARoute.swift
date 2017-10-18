@@ -75,7 +75,7 @@ class TRARoute {
     for match in matches as [NSTextCheckingResult] {
       // range at index 0: full match
       // range at index 1: first capture group
-      let substring = (myHTMLString as NSString).substring(with: match.range(at: 1))
+      let substring = NSString(string: myHTMLString).substring(with: match.range(at: 1))
       route.append(substring)
       index += 1
       if index == 8 {
