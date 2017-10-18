@@ -49,7 +49,7 @@ class TRARoute {
       url += "&searchdate=\(dateString)"
       url += "&trainclass=2"
       url += "&fromtime=\(fromTime)"
-      url += "&totime=\(toTime)"
+      url += "&totime=\(Int(fromTime)! >= 2100 ? String(Int(toTime)! + 2400) : toTime)"
       url += "&searchtext=\(fromStation.name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")"
       url += ",\(toStation.name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")"
 
@@ -58,28 +58,20 @@ class TRARoute {
     }
 
     let myHTMLString = try String(contentsOf: myURL)
-    print(myHTMLString)
-    let pattern = "TRSearchResult.push\\(\'([^\']*)\'\\)"
-    let re = try NSRegularExpression(pattern: pattern, options: [])
-    let matches = re.matches(in: myHTMLString,
-                             options: [],
-                             range: NSRange(location: 0, length: myHTMLString.count))
-
-    guard matches.count > 0 else {
+    let componets = myHTMLString.components(separatedBy: "TRSearchResult.push('")
+    guard componets.count > 0 else {
       lineBot.add(message: "三小時內尚無班次。")
       return
     }
     var route = [String]()
-    var index = 0
+    var routeIndex = 0
     var railwayInfo = String()
     lineBot.add(message: "搜尋臺鐵班表 - [\(fromStation.name)] >>> [\(toStation.name)]")
-    for match in matches {
-      // range at index 0: full match
-      // range at index 1: first capture group
-      let substring = NSString(string: myHTMLString).substring(with: match.range(at: 1))
-      route.append(substring)
-      index += 1
-      if index == 8 {
+    print(componets)
+    for index in 1..<componets.count - 1 {
+      route.append(String(componets[index].prefix(componets[index].characters.count - 3)))
+      routeIndex += 1
+      if routeIndex == 8 {
         if railwayInfo.characters.count > 0 {
           railwayInfo += "\n"
         }
@@ -91,9 +83,8 @@ class TRARoute {
         if route[7].count > 0 {
           railwayInfo += route[7] == "0" ? " 準點" : " 晚\(route[7])分"
         }
-        print(route)
         route.removeAll()
-        index = 0
+        routeIndex = 0
       }
     }
     lineBot.add(message: railwayInfo)

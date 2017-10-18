@@ -37,7 +37,6 @@ class CallBack {
     do {
       try TRARoute.queryTRARoute(message: message, lineBot: lineBot)
     } catch {
-      lineBot.add(message: error.localizedDescription)
       lineBot.add(message: "伺服器忙碌中，查詢失敗😇")
     }
     
