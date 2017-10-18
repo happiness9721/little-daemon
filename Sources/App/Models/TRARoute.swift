@@ -78,7 +78,7 @@ class TRARoute {
         railwayInfo += "-\(route[3])"
         railwayInfo += " \(route[0].leftPadding(toLength: 3, withPad: "　"))"
         railwayInfo += "(\(route[1]))"
-        if route[7].count > 0 {
+        if route[7].characters.count > 0 {
           railwayInfo += route[7] == "0" ? " 準點" : " 晚\(route[7])分"
         }
         route.removeAll()
