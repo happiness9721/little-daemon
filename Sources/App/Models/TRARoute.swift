@@ -57,11 +57,13 @@ class TRARoute {
       return
     }
 
-    lineBot.add(message: url)
+    lineBot.add(message: "搜尋臺鐵班表 - [\(fromStation.name)] >>> [\(toStation.name)]")
 
     let myHTMLString = try String(contentsOf: myURL)
+    lineBot.add(message: "try String(contentsOf: myURL)")
     let componets = myHTMLString.components(separatedBy: "TRSearchResult.push('")
-    guard componets.count > 0 else {
+    lineBot.add(message: "TRSearchResult.push(")
+    guard componets.count > 1 else {
       lineBot.add(message: "三小時內尚無班次。")
       return
     }
