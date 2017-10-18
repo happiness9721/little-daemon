@@ -75,7 +75,7 @@ class TRARoute {
     for match in matches as [NSTextCheckingResult] {
       // range at index 0: full match
       // range at index 1: first capture group
-      let substring = (myHTMLString as NSString).substring(with: match.rangeAt(1))
+      let substring = (myHTMLString as NSString).substring(with: match.range(at: 1))
       route.append(substring)
       index += 1
       if index == 8 {
@@ -147,15 +147,5 @@ extension String {
     } else {
       return self.substring(from: index(self.startIndex, offsetBy: newLength - toLength))
     }
-  }
-
-  func ranges(of string: String, options: CompareOptions = .literal) -> [Range<Index>] {
-    var result: [Range<Index>] = []
-    var start = startIndex
-    while let range = range(of: string, options: options, range: start..<endIndex) {
-      result.append(range)
-      start = range.upperBound
-    }
-    return result
   }
 }
