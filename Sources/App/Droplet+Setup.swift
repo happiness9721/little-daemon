@@ -1,5 +1,5 @@
 @_exported import Vapor
-import LineAPI
+import LineBot
 
 extension Droplet {
   public func setup() throws {
@@ -10,6 +10,6 @@ extension Droplet {
     guard let accessToken = config["line_config", "access_token"]?.string else {
       fatalError("error, put line_config.json into Config/secrets and write access_token")
     }
-    LineAPI.configure(with: accessToken)
+    LineBot.configure(with: accessToken)
   }
 }
