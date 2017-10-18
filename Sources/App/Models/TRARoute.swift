@@ -57,6 +57,8 @@ class TRARoute {
       return
     }
 
+    lineBot.add(message: url)
+
     let myHTMLString = try String(contentsOf: myURL)
     let componets = myHTMLString.components(separatedBy: "TRSearchResult.push('")
     guard componets.count > 0 else {
