@@ -20,7 +20,7 @@ class TRARoute {
     }
 
     let firstIndex = message.index(message.startIndex, offsetBy: fromStation.name.characters.count)
-    let truncated = message.substring(from: firstIndex)
+    let truncated = String(message[firstIndex...])
 
     // 去掉開頭車站名後如果沒有車站名稱就跳離
     guard let toStation = try TRAStation.makeQuery()
@@ -58,6 +58,7 @@ class TRARoute {
     }
 
     let myHTMLString = try String(contentsOf: myURL)
+    print(myHTMLString)
     let pattern = "TRSearchResult.push\\(\'([^\']*)\'\\)"
     let re = try NSRegularExpression(pattern: pattern, options: [])
     let matches = re.matches(in: myHTMLString,
@@ -72,7 +73,7 @@ class TRARoute {
     var index = 0
     var railwayInfo = String()
     lineBot.add(message: "搜尋臺鐵班表 - [\(fromStation.name)] >>> [\(toStation.name)]")
-    for match in matches as [NSTextCheckingResult] {
+    for match in matches {
       // range at index 0: full match
       // range at index 1: first capture group
       let substring = NSString(string: myHTMLString).substring(with: match.range(at: 1))
@@ -87,7 +88,7 @@ class TRARoute {
         railwayInfo += "-\(route[3])"
         railwayInfo += " \(route[0].leftPadding(toLength: 3, withPad: "　"))"
         railwayInfo += "(\(route[1]))"
-        if route[6] == "Y" && route[7].count > 0 {
+        if route[7].count > 0 {
           railwayInfo += route[7] == "0" ? " 準點" : " 晚\(route[7])分"
         }
         print(route)
@@ -145,7 +146,7 @@ extension String {
     if newLength < toLength {
       return String(repeatElement(character, count: toLength - newLength)) + self
     } else {
-      return self.substring(from: index(self.startIndex, offsetBy: newLength - toLength))
+      return String(self[index(self.startIndex, offsetBy: newLength - toLength)...])
     }
   }
 }
