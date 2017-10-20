@@ -5,19 +5,19 @@ final class ReplyImage: Model {
   var previewImageUrl: String
   var originalContentUrl: String
   let storage = Storage()
-  
+
   init(row: Row) throws {
     keyword = try row.get("keyword")
     previewImageUrl = try row.get("previewImageUrl")
     originalContentUrl = try row.get("originalContentUrl")
   }
-  
+
   init(keyword: String, previewImageUrl: String, originalContentUrl: String) {
     self.keyword = keyword
     self.previewImageUrl = previewImageUrl
     self.originalContentUrl = originalContentUrl
   }
-  
+
   func makeRow() throws -> Row {
     var row = Row()
     try row.set("id", id)
@@ -37,7 +37,7 @@ extension ReplyImage: Preparation {
       replyText.string("originalContentUrl")
     }
   }
-  
+
   static func revert(_ database: Database) throws {
     try database.delete(self)
   }
@@ -56,7 +56,7 @@ extension ReplyImage: JSONConvertible {
                   previewImageUrl: json.get("previewImageUrl"),
                   originalContentUrl: json.get("originalContentUrl"))
   }
-  
+
   func makeJSON() throws -> JSON {
     var json = JSON()
     try json.set("id", id)
@@ -79,7 +79,7 @@ extension ReplyImage: NodeConvertible {
                   previewImageUrl: node.get("previewImageUrl"),
                   originalContentUrl: node.get("originalContentUrl"))
   }
-  
+
   func makeNode(in context: Context?) throws -> Node {
     var node = Node(context)
     try node.set("id", id)
@@ -89,3 +89,4 @@ extension ReplyImage: NodeConvertible {
     return node
   }
 }
+

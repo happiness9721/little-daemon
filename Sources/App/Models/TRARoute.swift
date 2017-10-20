@@ -47,14 +47,14 @@ class TRARoute {
     let toTime = dateFormatter.string(from: now.addingTimeInterval(3600 * 3))
 
     var url = "http://twtraffic.tra.gov.tw/twrail/mobile//TimeTableSearchResult.aspx"
-      url += "?searchtype=1"
-      url += "&searchdate=\(dateString)"
-      url += "&trainclass=2"
-      url += "&fromtime=\(fromTime)"
-      url += "&totime=\(Int(fromTime)! >= 2100 ? String(Int(toTime)! + 2400) : toTime)"
-      url += "&searchtext=\(fromStation.name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")"
-      url += ",\(toStation.name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")"
-    
+    url += "?searchtype=1"
+    url += "&searchdate=\(dateString)"
+    url += "&trainclass=2"
+    url += "&fromtime=\(fromTime)"
+    url += "&totime=\(Int(fromTime)! >= 2100 ? String(Int(toTime)! + 2400) : toTime)"
+    url += "&searchtext=\(fromStation.name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")"
+    url += ",\(toStation.name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")"
+
     let myHTMLString = try String(bytes: Data(contentsOf: URL(string: url)!).makeBytes())
     let componets = myHTMLString.components(separatedBy: "TRSearchResult.push('")
     guard componets.count > 1 else {
@@ -139,3 +139,4 @@ extension String {
     }
   }
 }
+

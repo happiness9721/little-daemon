@@ -5,11 +5,11 @@ import HTTP
 /// creating typical REST patterns
 final class ReplyTextController: ResourceRepresentable {
   let view: ViewRenderer
-  
+
   init(_ view: ViewRenderer) {
     self.view = view
   }
-  
+
   /// GET /replyText
   func index(_ req: Request) throws -> ResponseRepresentable {
     let replyTexts = try ReplyText.makeQuery().all().makeNode(in: nil)
@@ -36,3 +36,4 @@ final class ReplyTextController: ResourceRepresentable {
     )
   }
 }
+

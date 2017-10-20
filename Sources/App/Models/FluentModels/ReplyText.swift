@@ -4,17 +4,17 @@ final class ReplyText: Model {
   var keyword: String
   var text: String
   let storage = Storage()
-  
+
   init(row: Row) throws {
     keyword = try row.get("keyword")
     text = try row.get("text")
   }
-  
+
   init(keyword: String, text: String) {
     self.keyword = keyword
     self.text = text
   }
-  
+
   func makeRow() throws -> Row {
     var row = Row()
     try row.set("id", id)
@@ -32,7 +32,7 @@ extension ReplyText: Preparation {
       replyText.string("text")
     }
   }
-  
+
   static func revert(_ database: Database) throws {
     try database.delete(self)
   }
@@ -49,7 +49,7 @@ extension ReplyText: JSONConvertible {
   convenience init(json: JSON) throws {
     try self.init(keyword: json.get("keyword"), text: json.get("text"))
   }
-  
+
   func makeJSON() throws -> JSON {
     var json = JSON()
     try json.set("id", id)
@@ -69,7 +69,7 @@ extension ReplyText: NodeConvertible {
   convenience init(node: Node) throws {
     try self.init(keyword: node.get("keyword"), text: node.get("text"))
   }
-  
+
   func makeNode(in context: Context?) throws -> Node {
     var node = Node(context)
     try node.set("id", id)
@@ -78,3 +78,4 @@ extension ReplyText: NodeConvertible {
     return node
   }
 }
+

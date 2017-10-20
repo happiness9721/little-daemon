@@ -4,16 +4,16 @@ import Foundation
 final class TRAStation: Model {
   var name: String
   let storage = Storage()
-  
+
   init(row: Row) throws {
     name = try row.get("name")
   }
-  
+
   init(id: String, name: String) {
     self.name = name
     self.id = Identifier(id)
   }
-  
+
   func makeRow() throws -> Row {
     var row = Row()
     try row.set("id", id)
@@ -28,7 +28,7 @@ extension TRAStation: Preparation {
       replyText.id()
       replyText.string("name")
     }
-    
+
     let url = "http://ptx.transportdata.tw/MOTC/v2/Rail/TRA/Station?$format=JSON"
     let json = try JSON(bytes: Data(contentsOf: URL(string: url)!).makeBytes())
     if let stations = json.array {
@@ -41,8 +41,9 @@ extension TRAStation: Preparation {
       }
     }
   }
-  
+
   static func revert(_ database: Database) throws {
     try database.delete(self)
   }
 }
+

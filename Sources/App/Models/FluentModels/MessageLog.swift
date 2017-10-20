@@ -4,17 +4,17 @@ final class MessageLog: Model {
   var sourceInfo: String
   var message: String
   let storage = Storage()
-  
+
   init(row: Row) throws {
     sourceInfo = try row.get("sourceInfo")
     message = try row.get("message")
   }
-  
+
   init(sourceInfo: String, message: String) {
     self.sourceInfo = sourceInfo
     self.message = message
   }
-  
+
   func makeRow() throws -> Row {
     var row = Row()
     try row.set("id", id)
@@ -34,8 +34,9 @@ extension MessageLog: Preparation {
       replyText.string("message")
     }
   }
-  
+
   static func revert(_ database: Database) throws {
     try database.delete(self)
   }
 }
+
