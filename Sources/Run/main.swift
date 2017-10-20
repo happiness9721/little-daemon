@@ -21,5 +21,8 @@ try config.setup()
 
 let drop = try Droplet(config)
 try drop.setup()
+drop.database?.log = { query in
+  print(query)
+}
 
 try drop.run()
