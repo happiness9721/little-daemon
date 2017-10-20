@@ -63,7 +63,6 @@ class TRARoute {
     var routeIndex = 0
     var railwayInfo = String()
     lineBot.add(message: "搜尋臺鐵班表 - [\(fromStation.name)] >>> [\(toStation.name)]")
-    print(componets)
     for index in 1...componets.count - 1 {
       let splitString = componets[index].components(separatedBy: "')")[0]
       route.append(splitString)
