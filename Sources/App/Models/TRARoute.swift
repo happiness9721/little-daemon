@@ -15,6 +15,7 @@ class TRARoute {
     // 如果一開始的字沒有包含車站名稱就跳離
     guard let fromStation = try TRAStation.makeQuery()
       .filter(raw: "$1 LIKE name || '%'", [message])
+      .sort(raw: "length(name) DESC")
       .first() else {
         return
     }
@@ -25,6 +26,7 @@ class TRARoute {
     // 去掉開頭車站名後如果沒有車站名稱就跳離
     guard let toStation = try TRAStation.makeQuery()
       .filter(raw: "$1 LIKE '%' || name || '%'", [truncated])
+      .sort(raw: "length(name) DESC")
       .first() else {
         return
     }
