@@ -31,12 +31,14 @@ class TRARoute {
         return
     }
 
-    try twtrafficAPI(fromStation: fromStation, toStation: toStation, lineBot: lineBot)
+    for result in try twtrafficAPI(fromStation: fromStation.name, toStation: toStation.name) {
+      lineBot.add(message: result)
+    }
   }
 
-  private static func twtrafficAPI(fromStation: TRAStation,
-                                   toStation: TRAStation,
-                                   lineBot: LineBot) throws {
+  private static func twtrafficAPI(fromStation: String,
+                                   toStation: String) throws -> [String] {
+    var result = [String]()
     let now = Date()
     let dateFormatter = DateFormatter()
     dateFormatter.timeZone = TimeZone(secondsFromGMT: 3600 * 8)
@@ -52,19 +54,19 @@ class TRARoute {
     url += "&trainclass=2"
     url += "&fromtime=\(fromTime)"
     url += "&totime=\(Int(fromTime)! >= 2100 ? String(Int(toTime)! + 2400) : toTime)"
-    url += "&searchtext=\(fromStation.name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")"
-    url += ",\(toStation.name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")"
+    url += "&searchtext=\(fromStation.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")"
+    url += ",\(toStation.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")"
 
     let myHTMLString = try String(bytes: Data(contentsOf: URL(string: url)!).makeBytes())
     let componets = myHTMLString.components(separatedBy: "TRSearchResult.push('")
     guard componets.count > 1 else {
-      lineBot.add(message: "三小時內尚無班次。")
-      return
+      result.append("三小時內尚無班次。")
+      return result
     }
     var route = [String]()
     var routeIndex = 0
     var railwayInfo = String()
-    lineBot.add(message: "搜尋臺鐵班表 - [\(fromStation.name)] >>> [\(toStation.name)]")
+    result.append("搜尋臺鐵班表 - [\(fromStation)] >>> [\(toStation)]")
     for index in 1...componets.count - 1 {
       let splitString = componets[index].components(separatedBy: "')")[0]
       route.append(splitString)
@@ -85,7 +87,8 @@ class TRARoute {
         routeIndex = 0
       }
     }
-    lineBot.add(message: railwayInfo)
+    result.append(railwayInfo)
+    return result
   }
 
   private static func madashitAPI(fromStation: TRAStation,

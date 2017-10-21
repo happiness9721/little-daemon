@@ -3,8 +3,7 @@ import LineBot
 
 extension Droplet {
   public func setup() throws {
-    let routes = Routes(view, config)
-    try collection(routes)
+    try setupRoutes()
     // Do any additional droplet setup
     // Channel Access Token
     guard let accessToken = config["line_config", "access_token"]?.string else {
