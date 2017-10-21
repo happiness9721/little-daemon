@@ -34,13 +34,7 @@ class CallBack {
       try messageLog.save()
     }
 
-    do {
-      try TRARoute.queryTRARoute(message: message, lineBot: lineBot)
-    } catch {
-      lineBot.add(message: "伺服器忙碌中，查詢失敗😇")
-      print("Error: \(error._domain)")
-      print(Thread.callStackSymbols)
-    }
+    try TRARoute.queryTRARoute(message: message, lineBot: lineBot)
 
     let raw = "$1 LIKE keyword"
     if let replyText = try ReplyText.makeQuery().filter(raw: raw, [message]).all().random {
