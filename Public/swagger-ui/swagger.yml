@@ -1,0 +1,66 @@
+swagger: "2.0"
+
+info:
+  version: 1.0.0
+  title: 爬蟲館
+  description: 爬蟲API
+
+basePath: /api
+
+tags:
+- name: "TRARoute"
+  description: "台鐵相關API"
+
+paths: 
+  /TRARoute:
+    get:
+      tags:
+        - "TRARoute"
+      summary: 查詢台鐵即時動態
+      description: 查詢台鐵即時動態
+      parameters:
+        - name: fromStation
+          in: query
+          required: true
+          description: 起站中文名稱
+          type: string
+        - name: toStation
+          in: query
+          required: true
+          description: 終點站中文名稱
+          type: string 
+        - name: searchDate
+          in: query
+          required: true
+          description: 搜尋日期(yyyy/MM/dd)
+          type: string 
+        - name: fromTime
+          in: query
+          required: true
+          description: 搜尋開始時間(HHmm)
+          type: string 
+        - name: toTime
+          in: query
+          required: true
+          description: 搜尋結束時間(HHmm)
+          type: string 
+      responses:
+        200:
+          description: 台鐵路線資訊，若查無資料則回傳空陣列。
+          schema:
+            type: array
+            items:
+              properties:
+                trainClassName:
+                  type: string
+                trainNo:
+                  type: string
+                departureTime:
+                  type: string
+                arrivalTimeTime:
+                  type: string
+                duration:
+                  type: string
+                delayInfo:
+                  type: string
+                
