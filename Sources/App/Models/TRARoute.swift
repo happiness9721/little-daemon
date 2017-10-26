@@ -41,8 +41,7 @@ class TRARoute: Codable {
         return
     }
 
-    let firstIndex = message.index(message.startIndex, offsetBy: fromStation.name.characters.count)
-    let truncated = message.substring(from: firstIndex)
+    let truncated = String(message.suffix(message.characters.count - fromStation.name.characters.count))
 
     // 去掉開頭車站名後如果沒有車站名稱就跳離
     guard let toStation = try TRAStation.makeQuery()
@@ -171,11 +170,11 @@ class TRARoute: Codable {
 
 extension String {
   func leftPadding(toLength: Int, withPad character: Character) -> String {
-    let newLength = self.characters.count
-    if newLength < toLength {
-      return String(repeatElement(character, count: toLength - newLength)) + self
+    let stringLength = self.characters.count
+    if stringLength < toLength {
+      return String(repeatElement(character, count: toLength - stringLength)) + self
     } else {
-      return self.substring(from: index(self.startIndex, offsetBy: newLength - toLength))
+      return String(self.suffix(toLength))
     }
   }
 }
