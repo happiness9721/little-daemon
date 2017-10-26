@@ -103,14 +103,14 @@ class TRARoute: Codable {
     url += ",\(toStation.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "")"
 
     let myHTMLString = try String(bytes: Data(contentsOf: URL(string: url)!).makeBytes())
-    let componets = myHTMLString.components(separatedBy: "TRSearchResult.push('")
-    guard componets.count > 1 else {
+    let components = myHTMLString.components(separatedBy: "TRSearchResult.push('")
+    guard components.count > 1 else {
       return routes
     }
     var route = [String]()
     var routeIndex = 0
-    for index in 1...componets.count - 1 {
-      let splitString = componets[index].components(separatedBy: "')")[0]
+    for component in components[1...components.count - 1] {
+      let splitString = component.components(separatedBy: "')")[0]
       route.append(splitString)
       routeIndex += 1
       if routeIndex == 8 {
