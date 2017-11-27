@@ -8,16 +8,16 @@
     <a href="http://vapor.team">
         <img src="http://vapor.team/badge.svg" alt="Slack Team">
     </a>
-    <a href="LICENSE">
+    <a href="license">
         <img src="http://img.shields.io/badge/license-MIT-brightgreen.svg" alt="MIT License">
     </a>
-    <a href="https://circleci.com/gh/vapor/mysql">
-        <img src="https://circleci.com/gh/vapor/mysql.svg?style=shield" alt="Continuous Integration">
+    <a href="https://circleci.com/gh/happiness9721/little-daemon">
+        <img src="https://circleci.com/gh/happiness9721/little-daemon.svg?style=shield" alt="Continuous Integration">
     </a>
     <a href="https://travis-ci.org/vapor/api-template">
     	<img src="https://travis-ci.org/vapor/api-template.svg?branch=master" alt="Build Status">
     </a>
     <a href="https://swift.org">
-        <img src="http://img.shields.io/badge/swift-3.1-brightgreen.svg" alt="Swift 3.1">
+        <img src="http://img.shields.io/badge/swift-4.0-brightgreen.svg" alt="Swift 4.0">
     </a>
 </center>
