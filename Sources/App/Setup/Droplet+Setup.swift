@@ -9,6 +9,7 @@ extension Droplet {
     guard let accessToken = config["line_config", "access_token"]?.string else {
       fatalError("error, put line_config.json into Config/secrets and write access_token")
     }
+    print("accessToken: \(accessToken)")
     LineBot.configure(with: accessToken)
   }
 }

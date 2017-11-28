@@ -49,6 +49,7 @@ class CallBack {
 
   func send() {
     lineBot.send()
+    print("replyToken: \(lineBot.replyToken)")
   }
 
   func json() throws -> JSON {
