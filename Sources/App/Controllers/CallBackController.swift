@@ -15,6 +15,7 @@ final class CallBackController: ResourceRepresentable {
     guard let callBack = CallBack(request: request) else {
       return Response(status: .forbidden)
     }
+    try callBack.createReplyMessage()
     return callBack.send()
   }
 
