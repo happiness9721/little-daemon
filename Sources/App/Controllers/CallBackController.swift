@@ -13,7 +13,7 @@ final class CallBackController: ResourceRepresentable {
   /// POST /callback
   func store(_ request: Request) throws -> ResponseRepresentable {
     guard let callBack = CallBack(request: request) else {
-      return Response(status: .ok, body: "reply")
+      return Response(status: .forbidden)
     }
     return callBack.send()
   }

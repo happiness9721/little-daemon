@@ -47,6 +47,16 @@ class CallBack {
       lineBot.add(message: LineMessageImage(originalContentUrl: replyImage.originalContentUrl,
                                             previewImageUrl: replyImage.previewImageUrl))
     }
+    if message == "測試" {
+      lineBot.add(message: LineMessageText(text: "測試"))
+      lineBot.add(message: LineMessageImage(originalContentUrl: "https://pbs.twimg.com/media/CmnGPoPVMAAZ32M.jpg",
+                                            previewImageUrl: "https://pbs.twimg.com/media/CmnGPoPVMAAZ32M.jpg"))
+      lineBot.add(message: LineMessageSticker(packageId: "1", stickerId: "2"))
+      lineBot.add(message: LineMessageLocation(title: "my location",
+                                               address: "〒150-0002 東京都渋谷区渋谷２丁目２１−１",
+                                               latitude: 35.65910807942215,
+                                               longitude: 139.70372892916203))
+    }
   }
 
   func send() -> Response {
