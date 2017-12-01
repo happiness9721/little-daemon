@@ -66,7 +66,7 @@ class TRARoute: Codable {
                                   fromTime: fromTime,
                                   toTime: Int(fromTime)! >= 2100 ? String(Int(toTime)! + 2400) : toTime)
     if routes.count > 0 {
-      lineBot.add(message: "搜尋臺鐵班表 - [\(fromStation.name)] >>> [\(toStation.name)]")
+      lineBot.add(message: LineMessageText(text: "搜尋臺鐵班表 - [\(fromStation.name)] >>> [\(toStation.name)]"))
       var railwayInfo = String()
       for route in routes {
         if railwayInfo.characters.count > 0 {
@@ -80,9 +80,9 @@ class TRARoute: Codable {
           railwayInfo += route.delayInfo == "0" ? " 準點" : " 晚\(route.delayInfo)分"
         }
       }
-      lineBot.add(message: railwayInfo)
+      lineBot.add(message: LineMessageText(text: railwayInfo))
     } else {
-      lineBot.add(message: "三小時內尚無班次。")
+      lineBot.add(message: LineMessageText(text: "三小時內尚無班次。"))
     }
   }
 
@@ -125,46 +125,6 @@ class TRARoute: Codable {
       }
     }
     return routes
-  }
-
-  private static func madashitAPI(fromStation: TRAStation,
-                                  toStation: TRAStation,
-                                  lineBot: LineBot) throws {
-    let now = Date()
-    let dateFormatter = DateFormatter()
-    dateFormatter.timeZone = TimeZone(secondsFromGMT: 3600 * 8)
-    dateFormatter.dateFormat = "yyyy/MM/dd"
-    let dateString = dateFormatter.string(from: now)
-    dateFormatter.dateFormat = "HHmm"
-    let fromTime = dateFormatter.string(from: now)
-    let toTime = dateFormatter.string(from: now.addingTimeInterval(3600 * 3))
-
-    var url = "http://www.madashit.com/api/get-Tw-Railway?date=\(dateString)"
-    url += "&fromstation=\(fromStation.id?.string ?? "")"
-    url += "&tostation=\(toStation.id?.string ?? "")"
-    url += "&fromtime=\(fromTime)&totime=\(toTime)"
-
-    guard let railwaies = try JSON(bytes: Data(contentsOf: URL(string: url)!).makeBytes()).array else {
-      return
-    }
-
-    lineBot.add(message: "搜尋臺鐵班表 - [\(fromStation.name)] >>> [\(toStation.name)]")
-    if railwaies.count > 0 {
-      var railwayInfo = String()
-      for railway in railwaies {
-        if railwayInfo.characters.count > 0 {
-          railwayInfo += "\n"
-        }
-        railwayInfo += (railway.object?["行駛時間"]?.string ?? "")
-        railwayInfo += " \(railway.object?["開車時間"]?.string ?? "")"
-        railwayInfo += "-\(railway.object?["到達時間"]?.string ?? "")"
-        railwayInfo += " \((railway.object?["車種"]?.string ?? "").leftPadding(toLength: 3, withPad: "　"))"
-        railwayInfo += "(\(railway.object?["經由"]?.string ?? ""))"
-      }
-      lineBot.add(message: railwayInfo)
-    } else {
-      lineBot.add(message: "三小時內尚無班次。")
-    }
   }
 }
 

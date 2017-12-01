@@ -8,22 +8,24 @@
 
 import Foundation
 import LineBot
+import HTTP
 
 class CallBack {
 
-  let replyToken: String
-  let sourceInfo: String
-  let message: String
   private let lineBot: LineBot
 
-  init(replyToken: String, sourceInfo: String, message: String) {
-    self.replyToken = replyToken
-    self.sourceInfo = sourceInfo
-    self.message = message
-    self.lineBot = LineBot(replyToken: replyToken)
+  init?(request: Request) {
+    guard let lineBot = LineBot.makeReply(from: request) else {
+      return nil
+    }
+    self.lineBot = lineBot
   }
 
   func createReplyMessage() throws {
+    guard let source = lineBot.source,
+          let message = lineBot.receivedMessage else { return }
+
+    let sourceInfo = makeSourceInfo(source: source)
     if let lastMessageLog = try MessageLog.makeQuery()
                                           .filter("sourceInfo", sourceInfo)
                                           .first() {
@@ -38,22 +40,34 @@ class CallBack {
 
     let raw = "$1 LIKE keyword"
     if let replyText = try ReplyText.makeQuery().filter(raw: raw, [message]).all().random {
-      lineBot.add(message: replyText.text)
+      lineBot.add(message: LineMessageText(text: replyText.text))
     }
 
     if let replyImage = try ReplyImage.makeQuery().filter(raw: raw, [message]).all().random {
-      lineBot.add(originalContentUrl: replyImage.originalContentUrl,
-                  previewImageUrl: replyImage.previewImageUrl)
+      lineBot.add(message: LineMessageImage(originalContentUrl: replyImage.originalContentUrl,
+                                            previewImageUrl: replyImage.previewImageUrl))
     }
   }
 
-  func send() {
-    lineBot.send()
-    print("replyToken: \(lineBot.replyToken)")
+  func send() -> Response {
+    return lineBot.sendReply()
   }
 
-  func json() throws -> JSON {
-    return try JSON(lineBot.body.makeNode(in: nil))
+  private func makeSourceInfo(source: Node) -> String {
+    var sourceInfo = String()
+    if let type = source.object?["type"]?.string {
+      sourceInfo += "type: " + type + ";"
+    }
+    if let userId = source.object?["userId"]?.string {
+      sourceInfo += "userId: " + userId + ";"
+    }
+    if let groupId = source.object?["groupId"]?.string {
+      sourceInfo += "groupId: " + groupId + ";"
+    }
+    if let roomId = source.object?["roomId"]?.string {
+      sourceInfo += "roomId: " + roomId + ";"
+    }
+    return sourceInfo
   }
 }
 

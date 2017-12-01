@@ -9,7 +9,6 @@ let package = Package(
     .executable(name: "Run", targets: ["Run"])
   ],
   dependencies: [
-    .package(url: "https://github.com/vapor/vapor.git", .upToNextMajor(from: "2.1.0")),
     .package(url: "https://github.com/vapor/fluent-provider.git", .upToNextMajor(from: "1.2.0")),
     .package(url: "https://github.com/vapor-community/postgresql-provider.git", .upToNextMajor(from: "2.1.0")),
     .package(url: "https://github.com/vapor/leaf-provider.git", .upToNextMajor(from: "1.0.0")),
@@ -17,14 +16,14 @@ let package = Package(
     .package(url: "https://github.com/happiness9721/line-bot-sdk-swift.git", .branch("develop")),
   ],
   targets: [
-    .target(name: "App", dependencies: ["Vapor", "FluentProvider", "PostgreSQLProvider", "LeafProvider", "LineBot"],
+    .target(name: "App", dependencies: ["LineBot", "FluentProvider", "PostgreSQLProvider", "LeafProvider"],
             exclude: [
               "Config",
               "Public",
               "Resources",
               ]),
     .target(name: "Run", dependencies: ["App"]),
-    .testTarget(name: "AppTests", dependencies: ["App", "Testing"])
+    .testTarget(name: "AppTests", dependencies: ["App"])
   ]
 )
 
