@@ -41,7 +41,7 @@ class TRARoute: Codable {
         return
     }
 
-    let truncated = String(message.suffix(message.characters.count - fromStation.name.characters.count))
+    let truncated = String(message.suffix(message.count - fromStation.name.count))
 
     // 去掉開頭車站名後如果沒有車站名稱就跳離
     guard let toStation = try TRAStation.makeQuery()
@@ -69,14 +69,14 @@ class TRARoute: Codable {
       lineBot.add(message: LineMessageText(text: "搜尋臺鐵班表 - [\(fromStation.name)] >>> [\(toStation.name)]"))
       var railwayInfo = String()
       for route in routes {
-        if railwayInfo.characters.count > 0 {
+        if railwayInfo.count > 0 {
           railwayInfo += "\n"
         }
         railwayInfo += route.duration
         railwayInfo += " \(route.departureTime)-\(route.arrivalTimeTime)"
         railwayInfo += " \(route.trainClassName.leftPadding(toLength: 3, withPad: "　"))"
         railwayInfo += "(\(route.trainNo))"
-        if route.delayInfo.characters.count > 0 {
+        if route.delayInfo.count > 0 {
           railwayInfo += route.delayInfo == "0" ? " 準點" : " 晚\(route.delayInfo)分"
         }
       }
@@ -130,7 +130,7 @@ class TRARoute: Codable {
 
 extension String {
   func leftPadding(toLength: Int, withPad character: Character) -> String {
-    let stringLength = self.characters.count
+    let stringLength = self.count
     if stringLength < toLength {
       return String(repeatElement(character, count: toLength - stringLength)) + self
     } else {
