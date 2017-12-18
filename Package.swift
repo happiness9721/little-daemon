@@ -14,14 +14,22 @@ let package = Package(
     .package(url: "https://github.com/vapor/leaf-provider.git", .upToNextMajor(from: "1.0.0")),
 //    .package(url: "https://github.com/happiness9721/line-bot-sdk-swift.git", .upToNextMajor(from: "1.0.0")),
     .package(url: "https://github.com/happiness9721/line-bot-sdk-swift.git", .branch("develop")),
+    .package(url: "https://github.com/brokenhandsio/SteamPress", from: "0.16.0"),
   ],
   targets: [
-    .target(name: "App", dependencies: ["LineBot", "FluentProvider", "PostgreSQLProvider", "LeafProvider"],
+    .target(name: "App",
+            dependencies: [
+              "LineBot",
+              "FluentProvider",
+              "PostgreSQLProvider",
+              "LeafProvider",
+              "SteamPress"
+            ],
             exclude: [
               "Config",
               "Public",
               "Resources",
-              ]),
+            ]),
     .target(name: "Run", dependencies: ["App"]),
     .testTarget(name: "AppTests", dependencies: ["App"])
   ]

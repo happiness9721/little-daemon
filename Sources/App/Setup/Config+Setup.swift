@@ -1,6 +1,7 @@
 import FluentProvider
 import PostgreSQLProvider
 import LeafProvider
+import SteamPress
 
 extension Config {
   public func setup() throws {
@@ -17,6 +18,7 @@ extension Config {
     try addProvider(FluentProvider.Provider.self)
     try addProvider(PostgreSQLProvider.Provider.self)
     try addProvider(LeafProvider.Provider.self)
+    try addProvider(SteamPress.Provider.self)
   }
 
   /// Add all models that should have their

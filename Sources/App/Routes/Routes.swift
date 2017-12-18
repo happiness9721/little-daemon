@@ -2,9 +2,11 @@ import Vapor
 
 extension Droplet {
   func setupRoutes() throws {
-    /// GET /
     get { req in
-      return try self.view.make("welcome")
+      return try self.view.make("index")
+    }
+    get("about") { req in
+      return try self.view.make("about")
     }
 
     resource("replyText", ReplyTextController(view))

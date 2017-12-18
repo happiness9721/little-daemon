@@ -1,0 +1,293 @@
+/** Global **/
+
+body {
+    background-color: #346B8C;
+}
+
+#content {
+    background-color: #ffffff;
+    margin-top: 0px;
+    padding-bottom: 2em;
+}
+
+footer {
+    padding: 2rem 0;
+    background-color: #346B8C;
+    color: white;
+}
+
+.nav-link {
+    color: white !important;
+}
+
+.nav-link:hover {
+    color: #BDBDBD !important;
+}
+
+.navbar-brand {
+    color: white !important;
+}
+
+#navigation {
+    background-color: #346B8C;
+}
+
+.btn-primary {
+    background-color: #DF7F81;
+    border-color: #DF7F81;
+}
+
+.btn-primary:hover {
+    background-color: #C57072;
+    border-color: #C57072;
+}
+
+.btn-outline-primary {
+    color: #DF7F81;
+    border-color: #DF7F81;
+}
+
+.btn-outline-primary:hover {
+    color: white;
+    border-color: #DF7F81;
+    background-color: #DF7F81;
+}
+
+.form-control-navbar {
+    border: 1px solid #346B8C;
+}
+
+#github-navbar {
+    font-size: 2em;
+}
+
+a {
+    color: #DF7F81;
+}
+
+a:hover {
+    color: #C57072;
+}
+
+#broken-hands-footer-logo {
+  width: 1.5em;
+  margin-right: 0.25em;
+}
+
+/** Global (end) **/
+
+/** Homepage **/
+
+#homepage-jumbotron {
+    margin-bottom: 0;
+    background-color: white;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+#homepage-title-image {
+    height: 20rem;
+    max-width: 100%;
+}
+
+#homepage-lead {
+    color: #DF7F81;
+}
+
+#homepage-footer-padder {
+    margin-top: -2em;
+}
+
+#homepage-card-deck {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+#open-source-copy {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.open-source-image {
+    object-fit: scale-down;
+    height: 10em;
+    margin-top: 1em;
+}
+
+.index-post-link {
+    color: rgb(41, 43, 44);
+    text-align: center;
+}
+
+.index-post-link:hover {
+    color: rgb(41, 43, 44);
+}
+
+.index-column h2 {
+    text-align: center;
+}
+
+/** Homepage (end) **/
+
+/** Blog **/
+
+
+h1.lead-title-blog {
+    font-size: 3.5rem;
+    font-weight: 300;
+    line-height: 1.1;
+}
+
+@media (min-width: 768px) {
+    h1.lead-title-blog {
+        font-size: 5.5rem;
+    }
+}
+
+.post-contents img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    max-width: 100%;
+}
+
+.post-contents {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.post-contents blockquote {
+    background: #f7f7f7;
+    padding: .5rem 1rem;
+    padding-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.post-title-link {
+    color: rgb(41, 43, 44);
+}
+
+.post-title-link:hover {
+    color: rgb(41, 43, 44);
+}
+
+.post-tags a {
+    color: white;
+}
+
+.post-tags a:hover {
+    text-decoration: none;
+}
+
+.social-media-buttons {
+    width: 100%;
+    display: flex;
+}
+
+.social-media-buttons div {
+    flex-basis: 100%
+}
+
+#tag-title-badge {
+  margin-left: .25em;
+}
+
+#profile-picture {
+    max-width: 100%
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #DF7F81;
+    border-color: #DF7F81;
+}
+
+.pagination .page-link {
+    color: #DF7F81;
+}
+
+/** Blog (end) **/
+
+/** Login/Reset Password **/
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.form-reset-password {
+    max-width: 700px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.form-reset-password label {
+    padding-right: 0;
+}
+
+.form-signin .checkbox {
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+.form-signin input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.form-signin .form-group {
+    margin-bottom: 0;
+}
+
+.form-reset-password {
+    max-width: 500px;
+}
+
+/** Login/Reset Password (end) **/
+
+/** Admin **/
+
+#blog-admin-users td, #blog-admin-posts td {
+    vertical-align:middle;
+}
+
+#inputUsername {
+    text-transform: lowercase;
+}
+
+#blog-post-edit-title-warning {
+    display: none;
+}
+
+.table-responsive {
+  border: none;
+}
+
+/** Admin (end) **/
+
+/** Search **/
+
+#blog-search-input {
+    width: 50%;
+}
+
+mark {
+    background-color: rgba(223, 127, 129, 0.5);
+    padding: 0px;
+}

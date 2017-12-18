@@ -1,0 +1,129 @@
+#extend("blogbase")
+
+#export("head") {
+    <title>#if(editing) {Edit} ##else() {Create New} User | Blog Admin | SteamPress</title>
+}
+
+#export("scripts") {
+  <script src="/static/js/admin/createUser.js"></script>
+}
+
+#export("body") {
+
+    #if(editing) {
+        <div id="edit-user-data" data-editing-page="true"</div>
+    }
+
+    <div class="container mt-3">
+
+        <h1>#if(editing) {Edit} ##else() {Create A New} User</h1>
+
+        #if(errors) {
+            #loop(errors, "error") {
+            <div class="alert alert-danger" role="alert">
+                <strong>Warning: </strong>#(error)
+            </div>
+            }
+        }
+
+        <form action="#if(editing) {/blog/admin/users/#(user_id)/edit/} ##else() {/blog/admin/createUser/}" id="create-user-form" method="post">
+            <div class="form-group" id="create-user-name-group">
+                <label class="form-control-label" for="inputName">Name *</label>
+                <input type="text" class="form-control #if(name_error) { is-invalid }" id="inputName" name="inputName" placeholder="Name" value="#(name_supplied)" autofocus required>
+                <div class="invalid-feedback">
+                    Please enter a name
+                </div>
+            </div>
+
+            <div class="form-group" id="create-user-username-group">
+                <label class="form-control-label" for="inputUsername">Username *</label>
+                <input type="text" class="form-control #if(username_error) { is-invalid }" id="inputUsername" name="inputUsername" placeholder="Username" value="#(username_supplied)" required>
+                <div class="invalid-feedback">
+                    Please enter a username
+                </div>
+            </div>
+
+            <div class="form-group" id="create-user-password-group">
+                <label class="form-control-label" for="inputPassword">Password #if(editing) {} ##else() { *}</label>
+                <div class="input-group">
+                    <input type="password" class="form-control #if(password_error) { is-invalid }" id="inputPassword" name="inputPassword" placeholder="Password" #if(editing) {} ##else() {required}>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#()passwordModal" tabindex="-1">?</button>
+                    </span>
+                </div>
+                <div class="invalid-feedback" id="password-feedback">
+                    Please enter a valid password
+                </div>
+                #if(editing) {<small id="passwordHelpBlock" class="form-text text-muted">
+                Leave the password blank if you don't want to change the password
+                </small>}
+            </div>
+
+            <div class="form-group" id="create-user-confirm-password-group">
+                <label class="form-control-label" for="inputConfirmPassword">Confirm Password #if(editing) {} ##else() { *}</label>
+                <input type="password" class="form-control #if(confirm_password_error) { is-invalid }" id="inputConfirmPassword" name="inputConfirmPassword" placeholder="Confirm Password" #if(editing) {} ##else() {required}>
+                <div class="invalid-feedback">
+                    Please confirm your password
+                </div>
+            </div>
+
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" id="inputResetPasswordOnLogin" value="inputResetPasswordOnLogin" name="inputResetPasswordOnLogin" #if(reset_password_on_login_supplied) {checked}>
+                    User must reset password on #if(editing) {next} ##else() {first} login?
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label" for="inputProfilePicture">Profile Picture</label>
+                <input type="text" class="form-control" id="inputProfilePicture" name="inputProfilePicture" placeholder="Link to profile picture" value="#(profile_picture_supplied)">
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label" for="inputTwitterHandle">Twitter Handle</label>
+                <div class="input-group">
+                    <span class="input-group-addon" id="twitterHandleAt">@</span>
+                    <input type="text" class="form-control" id="inputTwitterHandle" name="inputTwitterHandle" placeholder="Twitter Handle" value="#(twitter_handle_supplied)">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label" for="inputTagline">Tagline</label>
+                <input type="text" class="form-control" id="inputTagline" name="inputTagline" placeholder="Short tagline for User" value="#(tagline_supplied)">
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label" for="inputBiography">Biography</label>
+                <textarea class="form-control" id="inputBiography" name="inputBiography" rows="3">#(biography_supplied)</textarea>
+            </div>
+
+            <div class="form-group mt-3">
+                <button type="Submit" class="btn btn-primary">#if(editing) {Save} ##else() {Create User}</button>
+                #if(editing) {
+                <a href="/blog/admin/" class="btn btn-secondary" id="cancel-edit-button">Cancel</a>
+                }
+                <small class="text-muted ml-4">
+                    * Required Field
+                </small>
+            </div>
+        </form>
+
+    </div>
+
+    <!-- Password information Modal -->
+    <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="passwordModalLabel">Password Requirements</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Your password must be at least 8 characters long and should <em>not</em> be something simple like 'Password1234' You should be using a Password Manager!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}

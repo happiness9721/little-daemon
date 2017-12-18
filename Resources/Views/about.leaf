@@ -1,0 +1,67 @@
+#extend("blogbase")
+
+#export("head") {
+    <title>About | SteamPress Example</title>
+
+    <meta name="description" content="SteamPress is an open source blogging engine and platform written in Swift and powered by Vapor. It was created by Broken Hands.">
+
+    <meta property="og:title" content="About SteamPress">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="#(uri)">
+    <meta property="og:description" content="SteamPress is an open source blogging engine and platform written in Swift and powered by Vapor. It was created by Broken Hands.">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:image" content="https://www.steampress.io/static/images/steampress-og-image_1.jpg">
+    <meta property="og:image:width" content="2400">
+    <meta property="og:image:height" content="1257">
+    <meta name="twitter:image:alt" content="SteamPress - The open source blogging engine for Vapor">
+    <meta property="og:site_name" content="SteamPress">
+
+    #if(site_twitter_handle) {
+    <meta name="twitter:site" content="@#(site_twitter_handle)">
+    }
+}
+
+#export("body") {
+
+<div class="container mt-4">
+
+    <h1 class="display-4 text-center mb-3">About SteamPress</h1>
+
+    <p>
+        <a href="https://github.com/brokenhandsio/SteamPress" target="_blank">SteamPress</a>, is an open
+        source blog engine written in Swift and built on top of the
+        <a href="https://vapor.codes/" target="_blank">Vapor</a> framework.
+    </p>
+
+    <p>
+        It is designed to be simple to include into any website that is built using Vapor using
+        just the Vapor Provider. It can be added to a path in a site or can even be used as the main
+        site itself.
+    </p>
+
+    <p>
+        There is an example site
+        <a href="https://github.com/brokenhandsio/SteamPressExample" target="_blank">on Github</a> that
+        demonstrates how to integrate SteamPress into a site, including all the Leaf templates and how
+        to use them. It is a good starting place to clone and get up and running quickly. This site
+        is actually the example site deployed!
+    </p>
+
+    <p>
+        The example site also includes shows how to integrate
+        <a href="https://github.com/brokenhandsio/VaporSecurityHeaders" target="_blank">Vapor Security
+        Headers</a> and how to have custom error pages in Vapor.
+    </p>
+
+
+</div>
+
+}
+
+#export("scripts") {
+    #if(google_analytics_identifier) {
+        <div id="google-analytics-data" data-identifier="#(google_analytics_identifier)"></div>
+        <script src="/static/js/analytics.js"></script>
+    }
+}

@@ -1,0 +1,48 @@
+#extend("blogbase")
+
+#export("head") {
+<title>Login | Blog Admin | SteamPress</title>
+}
+
+#export("scripts") {
+    <script src="/static/js/admin/login.js"></script>
+}
+
+#export("body") {
+
+    <div class="container mt-4">
+
+        <h2 class="mb-3 text-center">Blog Login</h2>
+
+        #if(errors) {
+        #loop(errors, "error") {
+        <div class="alert alert-danger" role="alert">
+            <strong>Error: </strong>#(error)
+        </div>
+        }
+        }
+
+        #if(login_warning) {
+        <div class="alert alert-warning" role="alert">
+            <strong>Warning: </strong>You must be logged in to view this page
+        </div>
+        }
+
+        <form action="/blog/admin/login/" method="post" id="login-form" class="form-signin">
+            <div class="form-group" id="login-username-group">
+                <label for="inputUsername" class="sr-only">Username</label>
+                <input type="text" class="form-control #if(username_error) {is-invalid}" id="inputUsername" name="inputUsername" placeholder="Username" value="#(username_supplied)" autofocus required>
+            </div>
+            <div class="form-group" id="login-password-group">
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" class="form-control #if(password_error) {is-invalid}" id="inputPassword" name="inputPassword" placeholder="Password" required>
+            </div>
+            <div class="form-group checkbox text-center">
+                <label><input type="checkbox" value="remember-me" name="remember-me"> Remember Me</label>
+            </div>
+
+            <button type="submit" class="btn btn-lg btn-primary btn-block">Login</button>
+        </form>
+
+    </div>
+}

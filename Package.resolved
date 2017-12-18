@@ -2,6 +2,24 @@
   "object": {
     "pins": [
       {
+        "package": "Auth",
+        "repositoryURL": "https://github.com/vapor/auth.git",
+        "state": {
+          "branch": null,
+          "revision": "b8a0d6d7ac141831c999bf2458408dc2ec2edb39",
+          "version": "1.2.1"
+        }
+      },
+      {
+        "package": "AuthProvider",
+        "repositoryURL": "https://github.com/vapor/auth-provider.git",
+        "state": {
+          "branch": null,
+          "revision": "c8a89d5f32873a7ec6037e2c78a192526c496618",
+          "version": "1.2.0"
+        }
+      },
+      {
         "package": "BCrypt",
         "repositoryURL": "https://github.com/vapor/bcrypt.git",
         "state": {
@@ -132,8 +150,17 @@
         "repositoryURL": "https://github.com/happiness9721/line-bot-sdk-swift.git",
         "state": {
           "branch": "develop",
-          "revision": "7c989a42b3dc2c2939c516ed9a11fa34c4c98103",
+          "revision": "ecabab3e235eee98097d928ab7dc504a5ad3858b",
           "version": null
+        }
+      },
+      {
+        "package": "MarkdownProvider",
+        "repositoryURL": "https://github.com/vapor-community/markdown-provider.git",
+        "state": {
+          "branch": null,
+          "revision": "554143db48dc1e1fb3ebceb83eb501a39966db08",
+          "version": "1.1.1"
         }
       },
       {
@@ -159,8 +186,8 @@
         "repositoryURL": "https://github.com/vapor-community/postgresql.git",
         "state": {
           "branch": null,
-          "revision": "cfbfa12c148fd2b44e6777d4ed2f57ca597e06e7",
-          "version": "2.1.0"
+          "revision": "d57aa99805da230704f924f7680195cfbf869642",
+          "version": "2.1.1"
         }
       },
       {
@@ -218,6 +245,33 @@
         }
       },
       {
+        "package": "SteamPress",
+        "repositoryURL": "https://github.com/brokenhandsio/SteamPress",
+        "state": {
+          "branch": null,
+          "revision": "c0253ba08a91b285bdbc4fff65d339a206884b89",
+          "version": "0.16.1"
+        }
+      },
+      {
+        "package": "SwiftMarkdown",
+        "repositoryURL": "https://github.com/vapor-community/markdown.git",
+        "state": {
+          "branch": null,
+          "revision": "aea4876786fa284f6d86af1ce3436a17e22035b5",
+          "version": "0.4.0"
+        }
+      },
+      {
+        "package": "SwiftSoup",
+        "repositoryURL": "https://github.com/scinfu/SwiftSoup.git",
+        "state": {
+          "branch": null,
+          "revision": "cebd4851bcc8a0d0fedebdafca820303073280a9",
+          "version": "1.5.9"
+        }
+      },
+      {
         "package": "TLS",
         "repositoryURL": "https://github.com/vapor/tls.git",
         "state": {
@@ -227,12 +281,30 @@
         }
       },
       {
+        "package": "Validation",
+        "repositoryURL": "https://github.com/vapor/validation.git",
+        "state": {
+          "branch": null,
+          "revision": "e5a7e54ef7a611b168806191df5d6b6782fd43ed",
+          "version": "1.1.1"
+        }
+      },
+      {
         "package": "Vapor",
         "repositoryURL": "https://github.com/vapor/vapor.git",
         "state": {
           "branch": null,
           "revision": "63768e7f56e58dbfa4288e16ad2e4003bfd8dcde",
           "version": "2.4.0"
+        }
+      },
+      {
+        "package": "cmark",
+        "repositoryURL": "https://github.com/brokenhandsio/cmark-gfm.git",
+        "state": {
+          "branch": null,
+          "revision": "28d762c29119b5e1c3c0ba1e87198a6c0abcdd7a",
+          "version": "1.0.0"
         }
       }
     ]
