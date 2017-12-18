@@ -36,9 +36,7 @@ final class TRARouteController: ResourceRepresentable {
                                            toTime: toTime)
     let encoder = JSONEncoder()
     let data = try encoder.encode(routes)
-    let response = Response(status: .ok, body: data.makeBytes())
-    response.json = nil
-    response.headers[.contentType] = "application/json; charset=utf-8"
+    let response = try Response(status: .ok, json: JSON(bytes: data.makeBytes()))
     return response
   }
 
