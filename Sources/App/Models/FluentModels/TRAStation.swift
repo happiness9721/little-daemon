@@ -29,8 +29,8 @@ extension TRAStation: Preparation {
       replyText.string("name")
     }
 
-    let url = "http://ptx.transportdata.tw/MOTC/v2/Rail/TRA/Station?$format=JSON"
-    let json = try JSON(bytes: Data(contentsOf: URL(string: url)!).makeBytes())
+    let data = try DataFile.read(at: "Resources/Datas/stations.json")
+    let json = try JSON(bytes: data)
     if let stations = json.array {
       for station in stations {
         if let stationID = station.object?["StationID"]?.string,
