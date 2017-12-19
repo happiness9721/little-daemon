@@ -246,11 +246,11 @@
       },
       {
         "package": "SteamPress",
-        "repositoryURL": "https://github.com/brokenhandsio/SteamPress",
+        "repositoryURL": "https://github.com/happiness9721/SteamPress",
         "state": {
-          "branch": null,
-          "revision": "c0253ba08a91b285bdbc4fff65d339a206884b89",
-          "version": "0.16.1"
+          "branch": "master",
+          "revision": "18ee9c1c79f730114abea24ac9a2afd6a036b98f",
+          "version": null
         }
       },
       {

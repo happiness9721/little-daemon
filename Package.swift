@@ -14,7 +14,8 @@ let package = Package(
     .package(url: "https://github.com/vapor/leaf-provider.git", .upToNextMajor(from: "1.0.0")),
 //    .package(url: "https://github.com/happiness9721/line-bot-sdk-swift.git", .upToNextMajor(from: "1.0.0")),
     .package(url: "https://github.com/happiness9721/line-bot-sdk-swift.git", .branch("develop")),
-    .package(url: "https://github.com/brokenhandsio/SteamPress", from: "0.16.0"),
+    .package(url: "https://github.com/happiness9721/SteamPress", .branch("master")),
+//    .package(url: "https://github.com/brokenhandsio/SteamPress", from: "0.16.0"),
   ],
   targets: [
     .target(name: "App",
