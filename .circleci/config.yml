@@ -1,28 +1,12 @@
 version: 2
 
 jobs:
-  macos:
-    macos:
-      xcode: "9.0"
-    steps:
-      - checkout
-      - run: swift build
-      - run: swift build -c release
-      - run: swift test
-
-  linux:
+  build:
     docker:
       - image: swift:4.0
     steps:
-      - run: apt-get install -y libssl-dev
+      - run: apt-get install -y libssl-dev postgresql
       - checkout
       - run: swift build
       - run: swift build -c release
       - run: swift test
-
-workflows:
-  version: 2
-  tests:
-    jobs:
-      - linux
-      - macos
