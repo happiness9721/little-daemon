@@ -5,7 +5,7 @@ jobs:
     docker:
       - image: swift:4.0
     steps:
-      - run: apt-get install -y libssl-dev postgresql
+      - run: apt-get install -y libssl-dev postgresql-9.3
       - checkout
       - run: swift build
       - run: swift build -c release
