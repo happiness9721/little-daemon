@@ -13,17 +13,46 @@ import HTTP
 class CallBack {
 
   private let lineBot: LineBot
+  private var message: String?
+  private var source: Node?
 
   init?(request: Request) {
-    guard let lineBot = LineBot.makeReply(from: request) else {
+    guard let body = request.body.bytes?.makeString() else {
       return nil
     }
-    self.lineBot = lineBot
+
+    guard let signature = request.headers["X-Line-Signature"] else {
+      return nil
+    }
+
+    guard let object = request.data["events"]?.array?.first?.object else {
+      return nil
+    }
+
+    guard let message = object["message"]?.object?["text"]?.string else {
+      return nil
+    }
+
+    guard let replyToken = object["replyToken"]?.string else {
+      return nil
+    }
+
+    guard let source = object["source"] else {
+      return nil
+    }
+
+    guard LineBot.validateSignature(body: body, signature: signature) else {
+      return nil
+    }
+
+    lineBot = LineBot(messageType: .reply(token: replyToken))
+    self.message = message
+    self.source = source
   }
 
   func createReplyMessage() throws {
-    guard let source = lineBot.source,
-          let message = lineBot.receivedMessage else { return }
+    guard let source = source,
+          let message = message else { return }
 
     let sourceInfo = makeSourceInfo(source: source)
     if let lastMessageLog = try MessageLog.makeQuery()
@@ -60,7 +89,8 @@ class CallBack {
   }
 
   func send() -> Response {
-    return lineBot.sendReply()
+    lineBot.send()
+    return Response(status: .ok, body: "reply")
   }
 
   private func makeSourceInfo(source: Node) -> String {
