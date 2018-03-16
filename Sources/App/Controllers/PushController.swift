@@ -1,16 +1,18 @@
 import Vapor
 import HTTP
+import LineBot
 
 /// Here we have a controller that helps facilitate
 /// creating typical REST patterns
-final class CallBackController: ResourceRepresentable {
-  /// POST /callback
+final class PushController: ResourceRepresentable {
+  /// POST /push
   func store(_ request: Request) throws -> ResponseRepresentable {
-    guard let callBack = CallBack(request: request) else {
+    guard let pushTo = request.formData?["to"]?.string else {
       return Response(status: .forbidden)
     }
-    try callBack.createReplyMessage()
-    callBack.send()
+    let pushBot = LineBot(messageType: .push(to: [pushTo]))
+    pushBot.add(message: LineMessageText(text: "推播測試"))
+    pushBot.send()
     return Response(status: .ok)
   }
 
@@ -24,4 +26,5 @@ final class CallBackController: ResourceRepresentable {
     )
   }
 }
+
 

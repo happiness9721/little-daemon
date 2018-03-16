@@ -86,17 +86,11 @@ class CallBack {
                                                address: "〒150-0002 東京都渋谷区渋谷２丁目２１−１",
                                                latitude: 35.65910807942215,
                                                longitude: 139.70372892916203))
-      DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 10) {
-        let pushBot = LineBot(messageType: .push(to: [self.sender ?? ""]))
-        pushBot.add(message: LineMessageText(text: "推播測試"))
-        pushBot.send()
-      }
     }
   }
 
-  func send() -> Response {
+  func send() {
     lineBot.send()
-    return Response(status: .ok, body: "reply")
   }
 
   private func makeSourceInfo(source: Node) -> String {
