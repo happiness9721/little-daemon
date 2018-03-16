@@ -15,6 +15,7 @@ class CallBack {
   private let lineBot: LineBot
   private var message: String?
   private var source: Node?
+  private var sender: String?
 
   init?(request: Request) {
     guard let body = request.body.bytes?.makeString() else {
@@ -85,6 +86,11 @@ class CallBack {
                                                address: "〒150-0002 東京都渋谷区渋谷２丁目２１−１",
                                                latitude: 35.65910807942215,
                                                longitude: 139.70372892916203))
+      DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 10) {
+        let pushBot = LineBot(messageType: .push(to: [self.sender ?? ""]))
+        pushBot.add(message: LineMessageText(text: "推播測試"))
+        pushBot.send()
+      }
     }
   }
 
@@ -100,12 +106,15 @@ class CallBack {
     }
     if let userId = source.object?["userId"]?.string {
       sourceInfo += "userId: " + userId + ";"
+      sender = userId
     }
     if let groupId = source.object?["groupId"]?.string {
       sourceInfo += "groupId: " + groupId + ";"
+      sender = groupId
     }
     if let roomId = source.object?["roomId"]?.string {
       sourceInfo += "roomId: " + roomId + ";"
+      sender = roomId
     }
     return sourceInfo
   }
