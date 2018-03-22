@@ -23,7 +23,7 @@ final class CallBackController: ResourceRepresentable {
       return Response(status: .forbidden)
     }
 
-    guard !bot.validateSignature(content: content, signature: signature) else {
+    guard bot.validateSignature(content: content, signature: signature) else {
       return Response(status: .forbidden)
     }
 
