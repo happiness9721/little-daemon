@@ -1,4 +1,5 @@
 {
   "accessToken": "$CHANNEL_ACCESS_TOKEN",
-  "channelSecret": "$CHANNEL_SECRET"
+  "channelSecret": "$CHANNEL_SECRET",
+  "userID": "$USER_ID"
 }

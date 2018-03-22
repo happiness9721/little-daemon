@@ -1,4 +1,5 @@
 import App
+import LineBot
 
 /// We have isolated all of our App's logic into
 /// the App module because it makes our app
@@ -24,5 +25,11 @@ try drop.setup()
 drop.database?.log = { query in
   print(query)
 }
-try drop.run()
 
+let accessToken = config["linebot", "accessToken"]?.string ?? "*"
+let channelSecret = config["linebot", "channelSecret"]?.string ?? "*"
+let userID = config["linebot", "userID"]?.string ?? "*"
+let bot = LineBot(accessToken: accessToken, channelSecret: channelSecret)
+bot.push(userId: userID, messages: [.text(text: "更新完成囉😈")])
+
+try drop.run()

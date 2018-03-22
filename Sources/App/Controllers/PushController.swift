@@ -5,14 +5,20 @@ import LineBot
 /// Here we have a controller that helps facilitate
 /// creating typical REST patterns
 final class PushController: ResourceRepresentable {
+  private let bot: LineBot
+
+  init(_ config: Config) {
+    let accessToken = config["linebot", "accessToken"]?.string ?? "*"
+    let channelSecret = config["linebot", "channelSecret"]?.string ?? "*"
+    bot = LineBot(accessToken: accessToken, channelSecret: channelSecret)
+  }
+
   /// POST /push
   func store(_ request: Request) throws -> ResponseRepresentable {
     guard let pushTo = request.formData?["to"]?.string else {
       return Response(status: .forbidden)
     }
-    let pushBot = LineBot(messageType: .push(to: [pushTo]))
-    pushBot.add(message: LineMessageText(text: "推播測試"))
-    pushBot.send()
+    bot.push(userId: pushTo, messages: [.text(text: "推播測試")])
     return Response(status: .ok)
   }
 

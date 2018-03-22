@@ -12,49 +12,8 @@ import HTTP
 
 class CallBack {
 
-  private let lineBot: LineBot
-  private var message: String?
-  private var source: Node?
-  private var sender: String?
-
-  init?(request: Request) {
-    guard let body = request.body.bytes?.makeString() else {
-      return nil
-    }
-
-    guard let signature = request.headers["X-Line-Signature"] else {
-      return nil
-    }
-
-    guard let object = request.data["events"]?.array?.first?.object else {
-      return nil
-    }
-
-    guard let message = object["message"]?.object?["text"]?.string else {
-      return nil
-    }
-
-    guard let replyToken = object["replyToken"]?.string else {
-      return nil
-    }
-
-    guard let source = object["source"] else {
-      return nil
-    }
-
-    guard LineBot.validateSignature(body: body, signature: signature) else {
-      return nil
-    }
-
-    lineBot = LineBot(messageType: .reply(token: replyToken))
-    self.message = message
-    self.source = source
-  }
-
-  func createReplyMessage() throws {
-    guard let source = source,
-          let message = message else { return }
-
+  static func reply(message: String, source: LineEventBase.Source) throws -> [LineMessage] {
+    var messages = [LineMessage]()
     let sourceInfo = makeSourceInfo(source: source)
     if let lastMessageLog = try MessageLog.makeQuery()
                                           .filter("sourceInfo", sourceInfo)
@@ -66,49 +25,40 @@ class CallBack {
       try messageLog.save()
     }
 
-    try TRARoute.queryTRARoute(message: message, lineBot: lineBot)
+    let routeMessage = try TRARoute.queryTRARoute(message: message)
+    messages.append(contentsOf: routeMessage.map { LineMessage.text(text: $0) })
 
     let raw = "$1 LIKE keyword"
     if let replyText = try ReplyText.makeQuery().filter(raw: raw, [message]).all().random {
-      lineBot.add(message: LineMessageText(text: replyText.text))
+      messages.append(.text(text: replyText.text))
     }
 
     if let replyImage = try ReplyImage.makeQuery().filter(raw: raw, [message]).all().random {
-      lineBot.add(message: LineMessageImage(originalContentUrl: replyImage.originalContentUrl,
-                                            previewImageUrl: replyImage.previewImageUrl))
+      messages.append(.image(originalContentUrl: replyImage.originalContentUrl,
+                             previewImageUrl: replyImage.previewImageUrl))
     }
     if message == "測試" {
-      lineBot.add(message: LineMessageText(text: "測試"))
-      lineBot.add(message: LineMessageImage(originalContentUrl: "https://pbs.twimg.com/media/CmnGPoPVMAAZ32M.jpg",
-                                            previewImageUrl: "https://pbs.twimg.com/media/CmnGPoPVMAAZ32M.jpg"))
-      lineBot.add(message: LineMessageSticker(packageId: "1", stickerId: "2"))
-      lineBot.add(message: LineMessageLocation(title: "my location",
-                                               address: "〒150-0002 東京都渋谷区渋谷２丁目２１−１",
-                                               latitude: 35.65910807942215,
-                                               longitude: 139.70372892916203))
+      messages.append(.text(text: "測試"))
+      messages.append(.image(originalContentUrl: "https://pbs.twimg.com/media/CmnGPoPVMAAZ32M.jpg",
+                             previewImageUrl: "https://pbs.twimg.com/media/CmnGPoPVMAAZ32M.jpg"))
+      messages.append(.sticker(packageId: "1", stickerId: "2"))
+      messages.append(.location(title: "my location",
+                                address: "〒150-0002 東京都渋谷区渋谷２丁目２１−１",
+                                latitude: 35.65910807942215,
+                                longitude: 139.70372892916203))
     }
+    return messages
   }
 
-  func send() {
-    lineBot.send()
-  }
-
-  private func makeSourceInfo(source: Node) -> String {
+  static private func makeSourceInfo(source: LineEventBase.Source) -> String {
     var sourceInfo = String()
-    if let type = source.object?["type"]?.string {
-      sourceInfo += "type: " + type + ";"
+    sourceInfo += "type: \(source.type.rawValue);"
+    sourceInfo += "userId: \(source.userId);"
+    if let groupId = source.groupId {
+      sourceInfo += "groupId: \(groupId);"
     }
-    if let userId = source.object?["userId"]?.string {
-      sourceInfo += "userId: " + userId + ";"
-      sender = userId
-    }
-    if let groupId = source.object?["groupId"]?.string {
-      sourceInfo += "groupId: " + groupId + ";"
-      sender = groupId
-    }
-    if let roomId = source.object?["roomId"]?.string {
-      sourceInfo += "roomId: " + roomId + ";"
-      sender = roomId
+    if let roomId = source.roomId {
+      sourceInfo += "roomId: \(roomId);"
     }
     return sourceInfo
   }

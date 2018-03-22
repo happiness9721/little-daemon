@@ -168,7 +168,7 @@
         "repositoryURL": "https://github.com/happiness9721/line-bot-sdk-swift.git",
         "state": {
           "branch": "develop",
-          "revision": "baac7996633d87eedd87d16b02e4d21e15849963",
+          "revision": "0dd3877e600f404cafe905a9c99282932198df63",
           "version": null
         }
       },
@@ -186,8 +186,8 @@
         "repositoryURL": "https://github.com/vapor/multipart.git",
         "state": {
           "branch": null,
-          "revision": "8e541b2e6fc64a3741eca2aa48ee2c3f23cbe17c",
-          "version": "2.1.1"
+          "revision": "17c2bf072ae1698aa7d6c96472ff9b4a970c1816",
+          "version": "2.2.0"
         }
       },
       {
@@ -285,8 +285,8 @@
         "repositoryURL": "https://github.com/scinfu/SwiftSoup.git",
         "state": {
           "branch": null,
-          "revision": "4342ba16c0f88a2637711603a56db57832feabd6",
-          "version": "1.6.3"
+          "revision": "6e12e9238c4564ddb131d38e87fd87ce0415bdd6",
+          "version": "1.6.4"
         }
       },
       {

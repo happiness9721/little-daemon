@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import LineBot
 
 class TRARoute: Codable {
   let trainClassName: String
@@ -30,7 +29,8 @@ class TRARoute: Codable {
     self.delayInfo = delayInfo
   }
 
-  static func queryTRARoute(message: String, lineBot: LineBot) throws {
+  static func queryTRARoute(message: String) throws -> [String] {
+    var replyMessages = [String]()
     let message = message.replacingOccurrences(of: "台", with: "臺")
 
     // 如果一開始的字沒有包含車站名稱就跳離
@@ -38,7 +38,7 @@ class TRARoute: Codable {
       .filter(raw: "$1 LIKE name || '%'", [message])
       .sort(raw: "length(name) DESC")
       .first() else {
-        return
+        return replyMessages
     }
 
     let truncated = String(message.suffix(message.count - fromStation.name.count))
@@ -48,7 +48,7 @@ class TRARoute: Codable {
       .filter(raw: "$1 LIKE '%' || name || '%'", [truncated])
       .sort(raw: "length(name) DESC")
       .first() else {
-        return
+        return replyMessages
     }
 
     let now = Date()
@@ -66,7 +66,7 @@ class TRARoute: Codable {
                                   fromTime: fromTime,
                                   toTime: Int(fromTime)! >= 2100 ? String(Int(toTime)! + 2400) : toTime)
     if routes.count > 0 {
-      lineBot.add(message: LineMessageText(text: "搜尋臺鐵班表 - [\(fromStation.name)] >>> [\(toStation.name)]"))
+      replyMessages.append("搜尋臺鐵班表 - [\(fromStation.name)] >>> [\(toStation.name)]")
       var railwayInfo = String()
       for route in routes {
         if railwayInfo.count > 0 {
@@ -80,10 +80,11 @@ class TRARoute: Codable {
           railwayInfo += route.delayInfo == "0" ? " 準點" : " 晚\(route.delayInfo)分"
         }
       }
-      lineBot.add(message: LineMessageText(text: railwayInfo))
+      replyMessages.append(railwayInfo)
     } else {
-      lineBot.add(message: LineMessageText(text: "三小時內尚無班次。"))
+      replyMessages.append("三小時內尚無班次。")
     }
+    return replyMessages
   }
 
   static func twtrafficAPI(fromStation: String,

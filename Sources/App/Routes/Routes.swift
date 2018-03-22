@@ -11,8 +11,8 @@ extension Droplet {
 
     resource("replyText", ReplyTextController(view))
     resource("replyImage", ReplyImageController(view))
-    resource("callback", CallBackController())
-    resource("push", PushController())
+    resource("callback", CallBackController(config))
+    resource("push", PushController(config))
 
     /// api /
     get("api") { req in
